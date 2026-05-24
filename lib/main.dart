@@ -1,3 +1,4 @@
+import 'package:cakrawala_app/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Latihan Flutter',
-      home: const HalamanUtama(),
+      home: ProfilePage(),
     );
   }
   
