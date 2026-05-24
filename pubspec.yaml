@@ -37,6 +37,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.0
+  flutter_native_splash: ^2.4.7
 
   flutter_test:
     sdk: flutter
@@ -93,3 +94,8 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon/app_icon.png"
+
+flutter_native_splash:
+  fullscreen: true
+  color: "#ffffff"
+  image: "assets/icon/app_icon.png"
