@@ -1,4 +1,4 @@
-import 'package:cakrawala_app/sesi4/BelajarState.dart';
+import 'package:cakrawala_app/sesi4/belajar_state.dart';
 import 'package:flutter/material.dart';
 
 void main() {
