@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-// Model Product didefinisikan di sini agar bisa diimport oleh halaman lain
 class Product {
   final String name;
   final String description;
   final double price;
   final String imageUrl;
+  final String? badge; // null = tidak ada badge, isi string = tampilkan badge
 
   Product({
     required this.name,
     required this.description,
     required this.price,
     required this.imageUrl,
+    this.badge,
   });
 }
 
@@ -21,33 +23,36 @@ class ProductListPage extends StatelessWidget {
   final List<Product> products = [
     Product(
       name: 'Wireless Headphones',
-      description: 'High-quality noise-canceling headphones.',
+      description: 'High-quality noise-canceling headphones with up to 30 hours battery life.',
       price: 199.99,
       imageUrl: 'https://picsum.photos/200/300?random=1',
+      badge: 'Best Seller',
     ),
     Product(
       name: 'Smartphone',
-      description: 'Latest model with a stunning display.',
+      description: 'Latest model.',
       price: 799.00,
-      imageUrl: 'https://picsum.photos/200/300?random=2',
+      imageUrl: 'https://picsum.photos/200/220?random=2',
     ),
     Product(
       name: 'Laptop Pro',
-      description: 'Powerful laptop for professionals.',
+      description: 'Powerful laptop for professionals. Equipped with the latest processor and long-lasting battery.',
       price: 1299.50,
-      imageUrl: 'https://picsum.photos/200/300?random=3',
+      imageUrl: 'https://picsum.photos/200/260?random=3',
+      badge: 'New',
     ),
     Product(
       name: 'Smart Watch',
-      description: 'Track your fitness and notifications.',
+      description: 'Track your fitness.',
       price: 149.99,
-      imageUrl: 'https://picsum.photos/200/300?random=4',
+      imageUrl: 'https://picsum.photos/200/240?random=4',
     ),
     Product(
       name: 'Gaming Mouse',
-      description: 'Ergonomic mouse with RGB lighting.',
+      description: 'Ergonomic mouse with RGB lighting and adjustable DPI for precision gaming.',
       price: 59.90,
-      imageUrl: 'https://picsum.photos/200/300?random=5',
+      imageUrl: 'https://picsum.photos/200/280?random=5',
+      badge: 'Sale',
     ),
   ];
 
@@ -58,25 +63,20 @@ class ProductListPage extends StatelessWidget {
         title: const Text('Product List'),
         backgroundColor: Colors.blueAccent,
       ),
-      // ─── GRIDVIEW: menampilkan item dalam 2 kolom ─────────────────────
-      // crossAxisCount: 2  → jumlah kolom
-      // crossAxisSpacing  → jarak horizontal antar kartu
-      // mainAxisSpacing   → jarak vertikal antar kartu
-      // childAspectRatio  → rasio lebar:tinggi tiap sel (lebih kecil = lebih tinggi)
-      body: GridView.builder(
+
+      // ─── MASONRY STAGGERED GRID ────────────────────────────────────────
+      // MasonryGridView.count → grid 2 kolom dengan tinggi kartu yang bervariasi
+      // (berbeda dari GridView biasa yang tiap sel punya tinggi sama)
+      // Tinggi kartu mengikuti konten di dalamnya secara otomatis
+      body: MasonryGridView.count(
         padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.72,
-        ),
-        // ──────────────────────────────────────────────────────────────
+        crossAxisCount: 2,       // jumlah kolom
+        mainAxisSpacing: 10,     // jarak vertikal antar kartu
+        crossAxisSpacing: 10,    // jarak horizontal antar kartu
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
           return GestureDetector(
-            // ─── NAVIGASI DENGAN NAMED ROUTE ────────────────────────
             onTap: () {
               Navigator.pushNamed(
                 context,
@@ -84,19 +84,52 @@ class ProductListPage extends StatelessWidget {
                 arguments: product,
               );
             },
-            // ────────────────────────────────────────────────────────
             child: Card(
               elevation: 4,
               clipBehavior: Clip.antiAlias,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    product.imageUrl,
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  // ── Gambar produk ──────────────────────────────────
+                  Stack(
+                    children: [
+                      Image.network(
+                        product.imageUrl,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+
+                      // ── BADGE ──────────────────────────────────────
+                      // Tampilkan badge hanya jika product.badge tidak null
+                      // Jika null, gunakan SizedBox.shrink() → widget kosong
+                      if (product.badge != null)
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              product.badge!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      // ───────────────────────────────────────────────
+                    ],
                   ),
+
+                  // ── Info produk ────────────────────────────────────
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(
@@ -105,15 +138,11 @@ class ProductListPage extends StatelessWidget {
                         Text(
                           product.name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           product.description,
                           style: const TextStyle(fontSize: 12, color: Colors.grey),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -132,6 +161,7 @@ class ProductListPage extends StatelessWidget {
           );
         },
       ),
+      // ──────────────────────────────────────────────────────────────────
     );
   }
 }
