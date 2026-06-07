@@ -1,0 +1,4 @@
+git remote -v	Cek Alamat: Melihat daftar koneksi GitHub untuk memastikan link GitHub kamu (origin) dan GitHub dosen (upstream) sudah terpasang dengan benar.
+git fetch upstream	Cek Update: Mengambil informasi dan materi terbaru dari GitHub dosen ke laptop, tetapi belum langsung digabungkan ke file kamu.
+git merge upstream/main	Gabungkan File: Memasukkan materi baru yang diambil dari dosen tadi ke dalam folder project lokal di laptop kamu.
+git push origin main	Setor ke GitHub: Mengunggah (upload) hasil gabungan materi terbaru tadi dari laptop ke akun GitHub Fork milikmu sendiri.
