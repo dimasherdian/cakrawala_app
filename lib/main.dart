@@ -2,6 +2,8 @@ import 'package:cakrawala_app/sesi4/belajar_state.dart';
 import 'package:cakrawala_app/sesi5/checkout_page.dart';
 import 'package:cakrawala_app/sesi5/product_detail_page.dart';
 import 'package:cakrawala_app/sesi5/product_list_page.dart';
+import 'package:cakrawala_app/sesi5/student_detail_page.dart';
+import 'package:cakrawala_app/sesi5/student_list_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,12 +22,14 @@ class MyApp extends StatelessWidget {
       // Setiap route punya nama (String) yang digunakan saat navigasi.
       // Cukup daftarkan widget-nya — argumen diterima langsung di dalam
       // widget via ModalRoute.of(context)!.settings.arguments
-      initialRoute: '/product-list', // halaman pertama yang dibuka
+      initialRoute: '/student-list', // halaman pertama yang dibuka
       routes: {
         '/': (context) => const HalamanUtama(),
         '/product-list': (context) => ProductListPage(),
         '/product-detail': (context) => const ProductDetailPage(),
         '/checkout': (context) => const CheckoutPage(),
+        '/student-list': (context) => StudentListPage(),
+        '/student-detail': (context) => const StudentDetailPage(),
       },
       // ────────────────────────────────────────────────────────────────
     );
