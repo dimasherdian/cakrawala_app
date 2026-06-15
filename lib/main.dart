@@ -1,5 +1,4 @@
-import 'package:cakrawala_app/profile/profile_page.dart';
-import 'package:cakrawala_app/sesi4/belajar_state.dart';
+import 'package:cakrawala_app/sesi8/belajar_sesi_8.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,10 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Latihan Flutter',
-      home: BelajarState(),
+      home: BelajarSesi8(),
     );
   }
-  
+
 }
 
 class HalamanUtama extends StatefulWidget {
